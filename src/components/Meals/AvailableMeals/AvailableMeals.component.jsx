@@ -2,40 +2,58 @@ import React from "react";
 import Card from "../../UI/Card/Card.component";
 import MealItem from "../MealItem/MealItem.component";
 import classes from "./AvailableMeals.module.css";
+import { useEffect } from "react";
+import { useState } from "react";
 
 function AvailableMeals() {
-  const DUMMY_MEALS = [
-    {
-      id: "m1",
-      name: "Sushi",
-      description: "Finest fish and veggies",
-      price: 22.99,
-    },
-    {
-      id: "m2",
-      name: "Schnitzel",
-      description: "A german specialty!",
-      price: 16.5,
-    },
-    {
-      id: "m3",
-      name: "Barbecue Burger",
-      description: "American, raw, meaty",
-      price: 12.99,
-    },
-    {
-      id: "m4",
-      name: "Green Bowl",
-      description: "Healthy...and green...",
-      price: 18.99,
-    },
-  ];
+  const [meals, setMeals] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [httpError, setHttpError] = useState("");
 
+  const fetchMealsData = async () => {
+    try {
+      const response = await fetch(
+        "https://samvaad-chat-default-rtdb.firebaseio.com/meals.json"
+      );
+      const data = await response.json();
+      // console.log(data[`-NUvkp4Ky9g_rV56qbs5`]);
+      setMeals(data[`-NUvkp4Ky9g_rV56qbs5`]);
+      setLoading(false);
+    } catch (error) {
+      setHttpError(error.message);
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    // setLoading(true);
+    fetchMealsData();
+
+    // return () => {
+
+    // }
+  }, []);
+
+  if (loading) {
+    return (
+      <section className={classes.MealsLoading}>
+        <p> Loading 🎂🍔🍕🌭🍟</p>
+      </section>
+    );
+  }
+
+  if (httpError) {
+    return (
+      <section className={classes.MealsLoading}>
+        <p>ERROR | SERVER ERROR</p>
+      </section>
+    );
+  }
   return (
     <section className={classes.meals}>
       <Card>
         <ul>
-          {DUMMY_MEALS.map((meal) => (
+          {meals.map((meal) => (
             <MealItem
               key={meal.id}
               id={meal.id}
@@ -51,3 +69,23 @@ function AvailableMeals() {
 }
 
 export default AvailableMeals;
+
+// const postMealsData = async () => {
+//   const response = await fetch(
+//     "https://samvaad-chat-default-rtdb.firebaseio.com/meals.json",
+//     {
+//       method: "POST",
+//       body: JSON.stringify(DUMMY_MEALS),
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//     }
+//   );
+//   const data = await response.json();
+//   console.log(data);
+// };
+
+// useEffect(() => {
+//   postMealsData();
+//   return () => {};
+// }, []);

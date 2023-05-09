@@ -84,10 +84,16 @@ export const CartProvider = (props) => {
     });
   }
 
+  function resetCart() {
+    dispatchCartAction({
+      type: "reset",
+    });
+  }
   const value = {
     items: cartState.items,
     addItemsToCart,
     totalAmount: cartState.totalAmount,
+    resetCart,
 
     removeItemsFromCart,
   };
