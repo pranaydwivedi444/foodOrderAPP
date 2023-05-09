@@ -3,7 +3,7 @@
 It is a web application that allows users to order food from a restaurant. It is built using React and integrates with a Firebase backend for data storage and authentication. The application includes features such as a customizable menu, a shopping cart, and user authentication.
 
 ![image](https://github.com/pranaydwivedi444/foodorderapp/assets/48515987/aaf1629c-dc2c-4c1c-a7f0-bb2fd284fc50)
-#Features
+# Features
 The React Meals application comes with the following features:
 
 - User authentication: Users can create an account and log in to the application.
