@@ -4,6 +4,8 @@ import Meals from "./components/Meals/Meals.component";
 import Cart from "./components/Cart/Cart.component";
 import { useState } from "react";
 import { CartProvider } from "./Contexts/Cart.context";
+import { Provider } from "react-redux";
+import store from "./Store/index";
 
 function App() {
   const [modalOpen, setopenModal] = useState(false);
@@ -14,13 +16,15 @@ function App() {
     setopenModal(true);
   }
   return (
-    <CartProvider>
-      <Header openModal={openModal} />
-      {modalOpen && <Cart closeModal={closeModal} />}
-      <main>
-        <Meals />
-      </main>
-    </CartProvider>
+    <Provider store={store}>
+      <CartProvider>
+        <Header openModal={openModal} />
+        {modalOpen && <Cart closeModal={closeModal} />}
+        <main>
+          <Meals />
+        </main>
+      </CartProvider>
+    </Provider>
   );
 }
 
